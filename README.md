@@ -29,6 +29,11 @@ This will produce the following markdown table when pasted:
 | dog    | 85lb   | black  |
 | cat    | 18lb   | calico |
 ```
+## Docker Instructions
+
+1. `docker build -t victim/exceltomarkdown .`
+2. `docker run --name=exceltomarkdown -d -p 8080:80 victim/exceltomarkdown`
+3. Go to http://yourip:8080 or http://localhost:8080 to see the results
 
 ## Contributors
 
