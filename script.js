@@ -1,3 +1,4 @@
+#blank boxes fix from  MYCyw/copy-excel-paste-markdown 
 var editor = document.getElementById("editor")
 
 function columnWidth(rows, columnIndex) {
@@ -12,7 +13,7 @@ function looksLikeTable(data) {
 
 editor.addEventListener("paste", function(event) {
   var clipboard = event.clipboardData
-  var data = clipboard.getData('text/plain').trim()
+  var data = clipboard.getData('text/plain')
 
   if(looksLikeTable(data)) {
     event.preventDefault()
@@ -20,10 +21,15 @@ editor.addEventListener("paste", function(event) {
     return
   }
 
-  var rows = data.split((/[\u0085\u2028\u2029]|\r\n?/g)).map(function(row) {
-    row = row.replace('\n', ' ')
-    return row.split("\t")
-  })
+  var rows = data
+    .split(/[\u0085\u2028\u2029]|\r?\n/g)
+    .reduce(function (result, row) {
+      const re = /^[\t\n]*$/;
+      if (!re.test(row)) {
+        result.push(row.replace("\n", " ").split("\t"));
+      }
+      return result;
+    }, []);
 
   var colAlignments = []
 
